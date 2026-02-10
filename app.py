@@ -27,10 +27,22 @@ if text:
     results = emotion_model(text)[0]
 
     st.subheader("Detected Emotions")
+    #for r in results:
+        #st.write(f"{r['label']} : {round(r['score']*100, 2)}%")
+    st.subheader("Detected Emotions")
+
+if isinstance(results, list) and isinstance(results[0], dict):
     for r in results:
         st.write(f"{r['label']} : {round(r['score']*100, 2)}%")
+else:
+    st.write("Model output:", results)
 
-    top = max(results, key=lambda x: x["score"])
+    #top = max(results, key=lambda x: x["score"])
+    if isinstance(results, list) and isinstance(results[0], dict):
+        top = max(results, key=lambda x: x["score"])
+    else:
+        top = {"label": str(results), "score": 1.0}
+
     st.session_state.history.append({
         "time": datetime.now().strftime("%H:%M:%S"),
         "emotion": top["label"],
