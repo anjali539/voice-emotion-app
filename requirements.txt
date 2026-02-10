@@ -5,3 +5,4 @@ pandas
 speechrecognition
 pydub
 streamlit-webrtc
+numpy
