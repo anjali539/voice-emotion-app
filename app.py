@@ -89,3 +89,16 @@ if st.session_state.history:
     st.subheader("📈 Emotion Timeline")
     df = pd.DataFrame(st.session_state.history)
     st.line_chart(df.set_index("time")["score"])
+
+st.subheader("🎧 Upload Audio File")
+audio_file = st.file_uploader("Upload WAV file", type=["wav"])
+
+if audio_file:
+    recognizer = sr.Recognizer()
+    with sr.AudioFile(audio_file) as source:
+        audio = recognizer.record(source)
+        try:
+            voice_text = recognizer.recognize_google(audio)
+            st.success(f"Recognized Speech: {voice_text}")
+        except:
+            st.error("Speech recognition failed")
