@@ -70,7 +70,11 @@ final_text = text_input or voice_text
 
 # ---------------- EMOTION DETECTION ----------------
 if final_text:
-    results = emotion_model(final_text)[0]
+    raw_results = emotion_model(final_text)
+    if isinstance(raw_results, list) and isinstance(raw_results[0], list):
+        results = raw_results[0]
+    else:
+        results = raw_results
 
     st.subheader("🎯 Detected Emotions")
     for r in results:
